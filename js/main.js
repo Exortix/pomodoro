@@ -41,7 +41,7 @@ const pomodoro = {
         pomodoro.resetVariables(25*60, true);
     },
     startShortBreak: () => {
-        pomodoro.resetVariables(5*6, true);
+        pomodoro.resetVariables(5*60, true);
     },
     startLongBreak: () => {
         pomodoro.resetVariables(15*60, true);
