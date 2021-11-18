@@ -109,6 +109,13 @@ const pomodoro = {
 
 window.onload = () => {
     pomodoro.init();
+    if (("Notification" in window) && (Notification.permission != "granted")) {
+        alert("Enable \"Notifications\" to get notified when timer is done.")
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted")
+              var notification = new Notification("Notifications Permitted");
+        });
+    }
 };
 
 
