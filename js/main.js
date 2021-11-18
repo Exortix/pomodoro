@@ -41,7 +41,7 @@ const pomodoro = {
         pomodoro.resetVariables(25*60, true);
     },
     startShortBreak: () => {
-        pomodoro.resetVariables(5*60, true);
+        pomodoro.resetVariables(5*6, true);
     },
     startLongBreak: () => {
         pomodoro.resetVariables(15*60, true);
@@ -81,35 +81,35 @@ const pomodoro = {
         pomodoro.time--;
         pomodoro.updateDom();
     },
-    timerComplete: function(){
+    timerComplete: () => {
         pomodoro.started = false;
+        pomodoro.notify("Timer Complete!!!");
+        pomodoro.playSound("audio/done.mp3");
+    },
+    notify: (message) => {
+        if (!("Notification" in window)) {
+          alert("This browser does not support desktop notification");
+        }
+        else if (Notification.permission === "granted") {
+          var notification = new Notification(message);
+          return;
+        }
+        else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted")
+              var notification = new Notification(message);
+          });
+        }
+    },
+    playSound: (url) => {
+        const audio = new Audio(url);
+        audio.play();
     }
-}
-
-function humanReadableTime(seconds) {
-    let sec = 0, 
-        min = 0, 
-        hrs = 0;
-    sec = seconds;
-    while (sec >= 60) {
-      sec -= 60;
-      min += 1;
-    }
-    while (min >= 60) {
-      min -= 60;
-      hrs += 1;
-    }
-    sec = (sec<=9) ? '0'+sec.toString() : sec.toString();
-    min = (min<=9) ? '0'+min.toString() : min.toString();
-    hrs = (hrs<=9) ? '0'+hrs.toString() : hrs.toString();
-    let time = hrs +':'+ min +':'+ sec;
-    return time;
 }
 
 window.onload = () => {
     pomodoro.init();
 };
-
 
 
 
